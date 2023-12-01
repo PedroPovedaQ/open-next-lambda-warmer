@@ -1,3 +1,5 @@
+OpenNext implementation that uses aws-lambda-warmer.
+
 <p align="center">
   <a href="https://open-next.js.org">
     <picture>
