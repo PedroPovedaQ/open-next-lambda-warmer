@@ -18,6 +18,7 @@ import {
 } from "./routing/default.js";
 //#endOverride
 import { handler as serverHandler } from "./serverHandler";
+const warmer = require("lambda-warmer");
 
 const serverId = `server-${generateUniqueId()}`;
 
@@ -31,8 +32,14 @@ export async function lambdaHandler(
 ) {
   debug("event", event);
   // Handler warmer
-  if ("type" in event) {
-    return formatWarmerResponse(event);
+  if (await warmer(event)) {
+    const currentTime = new Date();
+    console.log(
+      `Lambda warmed at ${currentTime.toLocaleString("en-US", {
+        timeZone: "America/New_York",
+      })}`
+    );
+    return "warmed";
   }
 
   // Parse Lambda event and create Next.js request
